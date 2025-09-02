@@ -13,7 +13,7 @@ if "details_calls" not in st.session_state:
     st.session_state.details_calls = 0
 
 load_dotenv()
-API_KEY = st.secrets.get("GOOGLE_API_KEY", os.getenv("GOOGLE_API_KEY"))
+API_KEY = st.secrets.get("GOOGLE_API_KEY")
 
 
 # ------------------ Category → Subcategories ------------------
@@ -248,4 +248,5 @@ estimated_cost = (
     st.session_state.details_calls * 0.017
 )
 st.sidebar.write(f"Estimated Cost: ${estimated_cost:.2f}")
+
 #st.sidebar.caption("Google Maps gives $200 free per month.\nYou'll only be charged after exceeding that.")
