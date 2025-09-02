@@ -1,8 +1,7 @@
 import requests
 import pandas as pd
-from dotenv import load_dotenv
 import streamlit as st
-import os
+
 
 # Initialize API usage counters
 if "geocode_calls" not in st.session_state:
@@ -12,7 +11,7 @@ if "nearby_calls" not in st.session_state:
 if "details_calls" not in st.session_state:
     st.session_state.details_calls = 0
 
-load_dotenv()
+
 API_KEY = st.secrets.get("GOOGLE_API_KEY")
 
 
@@ -250,3 +249,4 @@ estimated_cost = (
 st.sidebar.write(f"Estimated Cost: ${estimated_cost:.2f}")
 
 #st.sidebar.caption("Google Maps gives $200 free per month.\nYou'll only be charged after exceeding that.")
+
