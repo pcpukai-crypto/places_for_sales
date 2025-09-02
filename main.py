@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import streamlit as st
-
+import time
 
 # Initialize API usage counters
 if "geocode_calls" not in st.session_state:
@@ -160,8 +160,22 @@ def get_nearby_places(lat, lng, radius, place_type=None, keyword=None):
     if keyword:
         params["keyword"] = keyword
 
-    response = requests.get(url, params=params).json()
-    return response.get('results', [])
+    all_results = []
+    while True:
+        response = requests.get(url, params=params).json()
+        results = response.get('results', [])
+        all_results.extend(results)
+
+        next_page_token = response.get("next_page_token")
+        if not next_page_token:
+            break
+
+        # Google requires a short delay before next_page_token becomes valid
+        import time
+        time.sleep(2)
+        params = {"pagetoken": next_page_token, "key": API_KEY}
+
+    return all_results[:60]  # Google max = 60 results
 
 
 def get_place_details(place_id):
@@ -247,6 +261,4 @@ estimated_cost = (
     st.session_state.details_calls * 0.017
 )
 st.sidebar.write(f"Estimated Cost: ${estimated_cost:.2f}")
-
 #st.sidebar.caption("Google Maps gives $200 free per month.\nYou'll only be charged after exceeding that.")
-
