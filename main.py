@@ -197,6 +197,11 @@ def get_place_details(place_id):
 # ------------------ Streamlit UI ------------------
 st.title("Nearby Business Finder")
 
+st.info(
+    "For best results, please enter a full address with **city and country (United Kingdom)**. "
+    "Example: *221B Baker Street, London, UK*. This ensures accurate location and nearby search results."
+)
+
 address = st.text_input("Enter Address")
 radius = st.number_input("Enter Radius in meters", value=500)
 
